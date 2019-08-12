@@ -10,7 +10,10 @@ var //libs
 var //modules
     tools = window.tools, //tools module
     app = window.app, //app module
-    world = window.world;
+    world = window.world,//world module
+    scene = window.scene,//scene module
+    markers = window.markers,//markers module
+    players = window.players; //players module
 'use strict';
 /* global THREE */
 class VoxelWorld {
@@ -24,44 +27,6 @@ class VoxelWorld {
         this.texts = [];
         this.labels = [];
         this.voxelMaterials = [];
-        this.container = document.getElementById('container');
-    }
-    _createTextLabel() {
-        var div = document.createElement('div');
-        div.className = 'text-label';
-        div.style.position = 'absolute';
-        div.style.width = 100;
-        div.style.height = 100;
-        div.innerHTML = "lbl";
-        div.style.top = -1000;
-        div.style.left = -1000;
-        var _this = this;
-        return {
-            element: div,
-            parent: false,
-            position: new THREE.Vector3(0, 0, 0),
-            setHTML: function(html) {
-                this.element.innerHTML = html;
-            },
-            setParent: function(threejsobj) {
-                this.parent = threejsobj;
-            },
-            updatePosition: function() {
-                if (parent) {
-                    this.position.copy(this.parent.position);
-                }
-                this.position.y = this.position.y + 1;
-                var coords2d = this.get2DCoords(this.position, window.camera);
-                this.element.style.left = coords2d.x + 'px';
-                this.element.style.top = coords2d.y + 'px';
-            },
-            get2DCoords: function(position, camera) {
-                var vector = position.project(camera);
-                vector.x = (vector.x + 1) / 2 * window.innerWidth;
-                vector.y = -(vector.y - 1) / 2 * window.innerHeight;
-                return vector;
-            }
-        };
     }
     addText(id, msg, pos, size, scale) {
         var SpriteText2D = window.THREE_Text2D.SpriteText2D;
@@ -99,28 +64,6 @@ class VoxelWorld {
                 var scene = window.scene;
                 scene.remove(o);
             }
-    }
-    addLabel(x, y, z, str) {
-        const world = window.world;
-        var text = this._createTextLabel();
-        text.setHTML(str);
-        /*var material = new THREE.MeshBasicMaterial({		
-            color: 0xffffff		
-        });*/
-        var material = new THREE.MeshNormalMaterial();
-        var geometry = new THREE.CylinderGeometry(0, .75, 1, 4, 1);
-        var mesh = new THREE.Mesh(geometry, material);
-        mesh.position.x = x + .5;
-        mesh.position.y = y + .5;
-        mesh.position.z = z + .5;
-        mesh.updateMatrix();
-        mesh.matrixAutoUpdate = false;
-        window.scene.add(mesh);
-        text.setParent(mesh);
-        //add to list
-        this.labels.push(text);
-        this.container.appendChild(text.element);
-        world.render();
     }
 }
 const cellSize = 4;
@@ -218,6 +161,7 @@ function main() {
         let _long;
         let allowed = false;
         let usereal = false;
+        let usefake=false;
         var dt = new Date();
         let noon;
         let nadir;
@@ -239,6 +183,17 @@ function main() {
             }
             return alt;
         };
+      
+      var getFakeAngle = function(){
+          var dt = new Date();
+          var currS = dt.getSeconds()+(60*(dt.getMinutes()+(60*dt.getHours())))
+          var total = 86400;
+          var perc = (currS*100/total)
+          var deg = ((perc/100) * 360/Math.PI)/100
+          return deg;
+        }
+        window.getFakeAngle = getFakeAngle;
+      
         //Reale pos nutzen falls verfügbar
         if (navigator.permissions) {
             navigator.permissions.query({
@@ -276,10 +231,12 @@ function main() {
                     setStartAngle(lat, long);
                 }).catch(function(error) {
                     console.log(error);
+                    usefake = true;
+                    sunAngle = getFakeAngle();
                 });
         }
         onRenderFcts.push(function(now) {
-            sunAngle = getAngle();
+            sunAngle = usefake ? getFakeAngle() : getAngle();
         })
         //sterne
         var starsGeometry = new THREE.Geometry();

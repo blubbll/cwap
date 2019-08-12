@@ -20,15 +20,11 @@ canvas {
   font-family: "Fira Mono", Monaco, "Andale Mono", "Lucida Console", "Bitstream Vera Sans Mono", "Courier New", Courier, monospace;
   margin: -5px 0 0 15px;
   pointer-events:none;
+  padding: 2px 8px;
+  border-radius: 6px;
+  background: black;
 }
 
-#notes {
-  color: #fff;
-  font-family: "Fira Mono", Monaco, "Andale Mono", "Lucida Console", "Bitstream Vera Sans Mono", "Courier New", Courier, monospace;
-  position: absolute;
-  bottom: 10px;
-  left: 10px;
-}
 
 .bg-none{
   background: transparent!important;
@@ -44,4 +40,6 @@ canvas {
   backdrop-filter: blur(2px);
   background: rgba(0,0,0,.75)!important;
 }
-#c
+.badge{
+  background: white;
+}

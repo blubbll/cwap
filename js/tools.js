@@ -18,6 +18,14 @@
         get isRetina() {
             return window.devicePixelRatio > 1
         },
+      S4: function() {
+          return (((1+Math.random())*0x10000)|0).toString(16).substring(1); 
+      },
+
+        get guid() {
+          var that = _self;
+          var S4 = that.S4;
+          return (S4() + S4() + "-" + S4() + "-4" + S4().substr(0,3) + "-" + S4() + "-" + S4() + S4() + S4()).toLowerCase()},
         getTimoji: function() {
             switch ((new Date).getHours()) {
                 case 0:
@@ -66,13 +74,14 @@
         })(),
         //debugging
         debug: function(scriptname, str) {
+            var that = _self;
             var o = new Object();
-            var l = tools.ismobile ? "DEBUG" : "ᴅᴇʙᴜɢ";
-            tools.defineProperty(o, scriptname, str);
-            var line = '(' + l + ')\t<' + tools.getTimoji() + moment().format('HH:mm:ss') + '>';
+            var l = that.ismobile ? "DEBUG" : "ᴅᴇʙᴜɢ";
+            that.defineProperty(o, scriptname, str);
+            var line = '(' + l + ')\t<' + that.getTimoji() + window.moment().format('HH:mm:ss') + '>';
             typeof str === 'string' ? [
-                !tools.isIE && !tools.isEdge ? [console.log('%c' + line + '\n', 'background: whitesmoke; color: #333;', o)] : [console.log(line + "," + "'" + scriptname + "'" + ":" + '"' + str + '"')]
-            ] : [!tools.isIE ? [console.log(line + ' ' + scriptname, str)] : [console.log(line), console.log(str)]];
+                !that.isIE && !that.isEdge ? [console.log('%c' + line + '\n', 'background: whitesmoke; color: #333;', o)] : [console.log(line + "," + "'" + scriptname + "'" + ":" + '"' + str + '"')]
+            ] : [!that.isIE ? [console.log(line + ' ' + scriptname, str)] : [console.log(line), console.log(str)]];
         },
 
         hexToRGB: function(hex) {

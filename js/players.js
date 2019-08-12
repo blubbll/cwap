@@ -10,9 +10,10 @@ var //libs
 var //modules
     tools = window.tools, //tools module
     app = window.app, //app module
-    world = window.world,
-    scene = window.scene,
-    players = window.players;
+    world = window.world,//world module
+    scene = window.scene,//scene module
+    markers = window.markers,//markers module
+    players = window.players; //players module
 
 [function() {
     var _self = {
@@ -32,6 +33,7 @@ var //modules
            var playerGeo = new THREE.CylinderGeometry(.75, 0, 1.5, 4);
            var playerOutlineGeo = playerGeo;
           
+            //paint upside black
            for (var i = 4; i < 8; i++) { 
              playerOutlineGeo.faces[i].color.set( 'black' )
             }
@@ -41,6 +43,7 @@ var //modules
               vertexColors: THREE.FaceColors
             }));
           
+            //outline
             var meshOutline = new THREE.Mesh(playerOutlineGeo ,
                  new THREE.MeshBasicMaterial({
                  color: 'red',
@@ -116,6 +119,13 @@ var //modules
           //world.render();
           
         },
+      
+        get: function(id){
+          var that = _self;///proxyfying
+          return that.list.filter(function(value, index, arr){
+            return value.id===id;
+          })[0];
+        },
         remove: function(id){
           var that = _self;///proxyfying
           
@@ -138,19 +148,22 @@ var //modules
           
         }
     }
+
     window.players = _self;
+    
 }()];
 
 
 //DEMO
 
+
 players.add("432432-432432-33", "test", [0,0,0]);
 
-setTimeout(function(){
-  
-  players.move("432432-432432-33", [1,0,1]);
-  
-}, 999);
+//setTimeout(function(){
+//  
+//  players.move("432432-432432-33", [1,0,1]);
+//  
+//}, 999);
 
 
 
