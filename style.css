@@ -1,0 +1,47 @@
+body {
+    margin: 0;
+    overflow: hidden;
+}
+
+canvas {
+   background: black;
+    border: 1px solid rgb(255, 255, 255, .8);
+    border-radius: .4rem;
+    cursor: move;
+    padding: 5px;
+    display: flex;
+    width: 100vw!important;
+    height: 100vh!important;
+}
+
+
+.text-label {
+  color: cyan;
+  font-family: "Fira Mono", Monaco, "Andale Mono", "Lucida Console", "Bitstream Vera Sans Mono", "Courier New", Courier, monospace;
+  margin: -5px 0 0 15px;
+  pointer-events:none;
+}
+
+#notes {
+  color: #fff;
+  font-family: "Fira Mono", Monaco, "Andale Mono", "Lucida Console", "Bitstream Vera Sans Mono", "Courier New", Courier, monospace;
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+}
+
+.bg-none{
+  background: transparent!important;
+}
+
+.nopress:active, .nopress:focus,.nopress:hover{
+  background-color: red!important;
+}
+.z-top{
+  z-index:9000;
+}
+.bg-blur{
+  backdrop-filter: blur(2px);
+  background: rgba(0,0,0,.75)!important;
+}
+#c
