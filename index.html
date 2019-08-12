@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Hello!</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0001, minimum-scale=1.0001, maximum-scale=1.0001, user-scalable=no">
+    <link rel="stylesheet" href="./css/blk.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.5.1/leaflet.css" />
+    <link rel="stylesheet" href="/style.css" />
+    <!-- debug ndrd -->
+    <script type="text/javascript" src="http://getfirebug.com/releases/lite/1.2/firebug-lite-compressed.js"></script>
+</head>
+
+<body>
+  
+  <!--modals -->
+  <div class="modal fade modal-mini modal-primary modal-mini d-none" id="myModal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="display: block; padding-right: 17px;" aria-modal="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header justify-content-center">
+              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                <i class="tim-icons icon-simple-remove text-white"></i>
+              </button>
+              <div class="modal-profile">
+                <i class="tim-icons icon-single-02"></i>
+              </div>
+            </div>
+            <div class="modal-body">
+              <p>Always have an access to your profile</p>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-link btn-neutral">Back</button>
+              <button type="button" class="btn btn-link btn-neutral" data-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+  
+    <div class="container-fluid">
+        <div class="row position-absolute w-100" id="status">
+            <div class="col-4 col-lg-5 col-md-8 col-lg-9">
+                <div class="card bg-blur z-top mt-3 px-2" id="clicker">
+
+                  <span class="text-light">Pos:</span>
+                  <p id="pos" class="px-2"></p>
+                  <span class="text-light">Locations:</span>
+                    <ul class="nav">
+                        <li>
+                          <button id="gospawn"
+                                  type="button" class="badge px-2 py-1 mx-1 my-1 border"
+                                  onclick="spawn()"
+                                  data-toggle="modal" data-target="#myModal1"
+                                  >Spawn
+                          </button>
+                        </li>
+                    </ul>
+                    <span class="text-light">Players:</span>
+                    <ul class="nav">
+                        <li>
+                          <button id="godemo"
+                                  type="button" class="badge px-3 py-2 mx-1 my-1 border"
+                                  title="open detailts for player 'test'" onclick="demo()"
+                                  data-toggle="modal" data-target="#myModal1"
+                                  >test
+                          </button>
+                          <button id="godemo2"
+                                  type="button" class="badge px-3 py-2 mx-1 my-1 border"
+                                  title="open detailts for player 'test'" onclick="app.moving.jump({x:2,y:2})"
+                                  data-toggle="modal" data-target="#myModal1"
+                                  >test2
+                          </button>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+       
+        <div class="row" id="map">
+            <div class="px-0">
+               <div class="card mt-0 bg-none">
+                <canvas id="c"></canvas>
+                <div id="container"></div>
+              </div>
+            </div>
+        </div>
+    </div>
+</body>
+  
+
+
+<!-- color manipulation & string -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tinycolor/1.4.1/tinycolor.min.js"></script>
+<!-- time library -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+<!-- jq -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/cash/4.1.2/cash.min.js"></script>
+
+<script src="./js/lib/suncalc.js"></script>
+<script src="./js/lib/three.js"></script>
+<script src="./js/lib/three-orbit.js"></script>
+<script src="./js/lib/three-text.js"></script>
+
+<script src="./js/three-daynight.js"></script>
+<script src="./js/world.js"></script>
+<script src="./js/players.js"></script>
+<script src="./js/markers.js"></script>
+<script src="./js/tools.js"></script>
+
+<script src="./app.js"></script>
+  
+  
+</html>
