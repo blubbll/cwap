@@ -109,7 +109,6 @@ class VoxelWorld {
         });*/
         var material = new THREE.MeshNormalMaterial();
         var geometry = new THREE.CylinderGeometry(0, .75, 1, 4, 1);
-      
         var mesh = new THREE.Mesh(geometry, material);
         mesh.position.x = x + .5;
         mesh.position.y = y + .5;
@@ -141,7 +140,7 @@ function main() {
         antialias: true
     });
     const size = 1200;
-    window.size=size;
+    window.size = size;
     const fov = 50;
     const aspect = 2; // the canvas default
     const near = 1;
@@ -233,12 +232,11 @@ function main() {
         var getAngle = function() {
             var dt = new Date();
             var alt = ((SunCalc.getPosition(dt, _lat, _long)).altitude);
-            if(dt > noon){
-              var nadirAlt = 3.6-((SunCalc.getPosition(nadir, _lat, _long)).altitude)*-1;
-              var newAlt = (nadirAlt-alt);
-              alt = newAlt;
+            if (dt > noon) {
+                var nadirAlt = 3.6 - ((SunCalc.getPosition(nadir, _lat, _long)).altitude) * -1;
+                var newAlt = (nadirAlt - alt);
+                alt = newAlt;
             }
-          
             return alt;
         };
         //Reale pos nutzen falls verfügbar
@@ -253,12 +251,14 @@ function main() {
                         "Your location will be processed locally. Otherwise your IP will be used.");
                     allowed = true;
                 }
-                if (allowed){ try {
-                    navigator.geolocation.getCurrentPosition(function(position) {
-                        usereal = true;
-                        setStartAngle(position.coords.latitude, position.coords.longitude);
-                    });
-                } catch (e) {} }else getLocationByIp();
+                if (allowed) {
+                    try {
+                        navigator.geolocation.getCurrentPosition(function(position) {
+                            usereal = true;
+                            setStartAngle(position.coords.latitude, position.coords.longitude);
+                        });
+                    } catch (e) {}
+                } else getLocationByIp();
             })
         } else getLocationByIp();
         var getLocationByIp = function() {
@@ -294,6 +294,7 @@ function main() {
             color: 0xffffff
         });
         var starField = new THREE.Points(starsGeometry, starsMaterial);
+        world.starField = starField;
         scene.add(starField);
         //sonne
         var sunSphere = new THREEx.DayNight.SunSphere()
@@ -303,9 +304,8 @@ function main() {
         })
         //licht
         var sunLight = new THREEx.DayNight.SunLight();
-        var helper = new THREE.DirectionalLightHelper( sunLight.object3d, 50000 );
-        scene.add( helper );
-      
+        var helper = new THREE.DirectionalLightHelper(sunLight.object3d, 50000);
+        scene.add(helper);
         scene.add(sunLight.object3d)
         onRenderFcts.push(function() {
             sunLight.update(sunAngle)

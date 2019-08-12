@@ -29,19 +29,22 @@ var //modules
             const z = pos[0][2];
          
             //geometry
-          var playerGeo = new THREE.CylinderGeometry(.75, 0, 1.5, 4);
-                ;
+           var playerGeo = new THREE.CylinderGeometry(.75, 0, 1.5, 4);
+           var playerOutlineGeo = playerGeo;
           
-            playerGeo.faces[4].color.set( 'red' )
+           for (var i = 4; i < 8; i++) { 
+             playerOutlineGeo.faces[i].color.set( 'black' )
+            }
+           
             //mesh
             const mesh = new THREE.Mesh(playerGeo, new THREE.MeshToonMaterial({
               vertexColors: THREE.FaceColors
             }));
           
-            var meshOutline = new THREE.Mesh(new THREE.CylinderGeometry(.75, 0, 1.5, 4),
+            var meshOutline = new THREE.Mesh(playerOutlineGeo ,
                  new THREE.MeshBasicMaterial({
                  color: 'red',
-              side: THREE.BackSide
+               side: THREE.BackSide
             }));
             meshOutline.position = mesh.position;
             meshOutline.scale.multiplyScalar(1.05);
