@@ -11,23 +11,25 @@ var //modules
     tools = window.tools, //tools module
     app = window.app, //app module
     world = window.world,//world module
+    camera = window.camera,//camera module
     scene = window.scene,//scene module
     markers = window.markers,//markers module
     players = window.players; //players module
-
+'use strict';
+//==========================================================
 [function() {
     var _self = {
         list: [],
-        add: function(id, name, ...pos) {
+        add: function(id, name, pos) {
           var that = _self;///proxyfying
           
             //color
            const color= 'black';
           
             //pos
-            const x = pos[0][0];
-            const y = pos[0][1];
-            const z = pos[0][2];
+            const x = pos[0];
+            const y = pos[1];
+            const z = pos[2];
          
             //geometry
            var playerGeo = new THREE.CylinderGeometry(.75, 0, 1.5, 4);
@@ -70,7 +72,7 @@ var //modules
             window.scene.add(mesh);
           
             //add name
-            world.addText(id, name, {x, y, z}, 32, .02);
+            world.addText(id, name, [x, y, z], 32, .02);
           
             //add profile pic
             /*world.addPic(
@@ -82,13 +84,13 @@ var //modules
             //add to list
             that.list.push({id, pos, name });
         },
-        move: function(id, ...newpos){
+        move: function(id, newpos){
           var that = _self;///proxyfying
           
           //new position
-          const newX = newpos[0][0];
-          const newY = newpos[0][1];
-          const newZ = newpos[0][2];
+          const newX = newpos[0];
+          const newY = newpos[1];
+          const newZ = newpos[2];
             
           //////////////figure
           //get player mesh
@@ -126,6 +128,28 @@ var //modules
             return value.id===id;
           })[0];
         },
+        
+        update: function(id, name, pos){
+          var that = _self;///proxyfying
+          
+          //get player
+          const player = that.get(id);
+          
+          //name
+          if(player.name !== name)player.name=name;
+          
+          //move
+          if(player.pos !== pos)
+            that.move(player.id, pos)
+                    
+          //text
+            world.updateText(player.id, player.name, pos);
+        },
+          
+        rename: function(id, name){
+          var that = _self;///proxyfying
+          const player = that.get(id);
+        },
         remove: function(id){
           var that = _self;///proxyfying
           
@@ -156,8 +180,7 @@ var //modules
 
 //DEMO
 
-
-players.add("432432-432432-33", "test", [0,0,0]);
+//players.add("432432-432432-33", "test", [0,0,0]);
 
 //setTimeout(function(){
 //  

@@ -10,7 +10,13 @@ var //libs
 var //modules
     tools = window.tools, //tools module
     app = window.app, //app module
-    world = window.world;
+    world = window.world,//world module
+    camera = window.camera,//camera module
+    scene = window.scene,//scene module
+    markers = window.markers,//markers module
+    players = window.players; //players module
+'use strict';
+//==========================================================
 var THREEx = THREEx || {}
 THREEx.DayNight = {}
 THREEx.DayNight.currentPhase = function(sunAngle) {

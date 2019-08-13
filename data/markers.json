@@ -1,1 +1,6 @@
-[{pos: [0,0,0], str: "spawn"}]
+{
+    "d000ac2d-9056-406b-a7b2-30635ffecd19": {
+        "name": "spawnh",
+        "pos": [0, 0, 1]
+    }
+}

@@ -18,14 +18,15 @@
         get isRetina() {
             return window.devicePixelRatio > 1
         },
-      S4: function() {
-          return (((1+Math.random())*0x10000)|0).toString(16).substring(1); 
-      },
+        S4: function() {
+            return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
+        },
 
         get guid() {
-          var that = _self;
-          var S4 = that.S4;
-          return (S4() + S4() + "-" + S4() + "-4" + S4().substr(0,3) + "-" + S4() + "-" + S4() + S4() + S4()).toLowerCase()},
+            var that = _self;
+            var S4 = that.S4;
+            return (S4() + S4() + "-" + S4() + "-4" + S4().substr(0, 3) + "-" + S4() + "-" + S4() + S4() + S4()).toLowerCase()
+        },
         getTimoji: function() {
             switch ((new Date).getHours()) {
                 case 0:
@@ -91,6 +92,19 @@
                 g: parseInt(result[2], 16),
                 b: parseInt(result[3], 16)
             } : null;
+        },
+
+        getJson: function(url, options = {}) {
+            try {
+                const req = fetch(url)
+                    .then(async (response) => {
+                        return JSON.parse(await response.text());
+                    })
+                    .catch((err) => {
+                        console.warn(err)
+                    });
+                return req;
+            } catch (e) {}
         },
 
         //zufälliger hex

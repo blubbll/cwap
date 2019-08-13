@@ -10,11 +10,13 @@ var //libs
 var //modules
     tools = window.tools, //tools module
     app = window.app, //app module
-    world = window.world,//world module
-    scene = window.scene,//scene module
-    markers = window.markers,//markers module
+    world = window.world, //world module
+    camera = window.camera, //camera module
+    scene = window.scene, //scene module
+    markers = window.markers, //markers module
     players = window.players; //players module
 'use strict';
+//==========================================================
 /* global THREE */
 class VoxelWorld {
     constructor(options) {
@@ -31,21 +33,42 @@ class VoxelWorld {
     addText(id, msg, pos, size, scale) {
         var SpriteText2D = window.THREE_Text2D.SpriteText2D;
         var textAlign = window.THREE_Text2D.textAlign;
-        var texts = [];
         var sprite = new SpriteText2D(msg, {
             align: textAlign.center,
-            font: (size !== void 0 ? size : 64) + 'px Arial',
+            font: (size !== void 0 ? size : 32) + 'px Arial',
             fillStyle: '#ffffff',
             antialias: true
         });
-        sprite.position.set(pos.x + .5, pos.y + 2, pos.z + .5);
+        sprite.position.set(pos[0] + .5, pos[1] + 2, pos[2] + .5);
         var scale = scale !== void 0 ? scale : .1;
         sprite.name = 'text_' + id;
         sprite.scale.set(scale, scale, scale)
         window.scene.add(sprite)
         //window.scene.remove(sprite)
-        texts.push(sprite);
+        this.texts['text_' + id] = sprite;
         return sprite;
+    }
+    updateText(id, msg, pos, size, scale) {
+        const sprite = scene.getObjectByName('text_' + id);
+
+        //text
+        if (msg && sprite.text !== msg) sprite.text = msg;
+
+        //pos
+        if (pos && sprite.position !== {
+                x: pos[0] + .5,
+                y: pos[1] + 2,
+                z: pos[2] + .5
+            })
+            sprite.position.set(pos[0] + .5, pos[1] + 2, pos[2] + .5);
+
+        //size
+        if (msg && sprite.font.split('px')[0] !== size !== void 0 ? size : 32)
+            sprite.font = size + 'px Arial';
+
+        //scale
+        if (scale && sprite.scale !== scale) sprite.scale = scale;
+
     }
     addPic(id, url, pos) {
         var texture = new THREE.TextureLoader().load(url);
@@ -161,7 +184,7 @@ function main() {
         let _long;
         let allowed = false;
         let usereal = false;
-        let usefake=false;
+        let usefake = false;
         var dt = new Date();
         let noon;
         let nadir;
@@ -183,17 +206,17 @@ function main() {
             }
             return alt;
         };
-      
-      var getFakeAngle = function(){
-          var dt = new Date();
-          var currS = dt.getSeconds()+(60*(dt.getMinutes()+(60*dt.getHours())))
-          var total = 86400;
-          var perc = (currS*100/total)
-          var deg = ((perc/100) * 360/Math.PI)/100
-          return deg;
+
+        var getFakeAngle = function() {
+            var dt = new Date();
+            var currS = dt.getSeconds() + (60 * (dt.getMinutes() + (60 * dt.getHours())))
+            var total = 86400;
+            var perc = (currS * 100 / total)
+            var deg = ((perc / 100) * 360 / Math.PI) / 100
+            return deg;
         }
         window.getFakeAngle = getFakeAngle;
-      
+
         //Reale pos nutzen falls verfügbar
         if (navigator.permissions) {
             navigator.permissions.query({
@@ -236,6 +259,7 @@ function main() {
                 });
         }
         onRenderFcts.push(function(now) {
+
             sunAngle = usefake ? getFakeAngle() : getAngle();
         })
         //sterne
